@@ -1,0 +1,54 @@
+version: "1"
+
+package:
+  id: io.github.photoflare
+  name: photoflare
+  version: 1.6.13.1
+  kind: app
+  description: |
+    Quick, simple but powerful Cross Platform image editor.
+
+command:
+  - /opt/apps/io.github.photoflare/files/bin/photoflare
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/PhotoFlare/photoflare.git
+    version: master
+    commit: 11de5e05fe3bdcc9b914808d70e3c71242931661
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/g/graphicsmagick/libgraphicsmagick++1-dev_1.4+really1.3.35-1~deb10u3_amd64.deb
+    digest: a0eea4d3a5b093357ea8538e3f4ed1264f948d7635612e95824f19ef62f5142e
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/g/graphicsmagick/graphicsmagick_1.4+really1.3.35-1~deb10u3_amd64.deb
+    digest: 2e989812869f845670cb3c7e729b7c3c1f7804ae2c6d4dd5ee1516c8a51f3e37
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/g/graphicsmagick/libgraphicsmagick++-q16-12_1.4+really1.3.35-1~deb10u3_amd64.deb
+    digest: 7a7b748e11d18809ec572ed2a746cded855998c0e81f23170a7a3b08a38e664e
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/g/graphicsmagick/libgraphicsmagick1-dev_1.4+really1.3.35-1~deb10u3_amd64.deb
+    digest: aef06da4bf654e69238976b99f35afdda01ba68df6c00d22c297710378b390e6
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/g/graphicsmagick/libgraphicsmagick-q16-3_1.4+really1.3.35-1~deb10u3_amd64.deb
+    digest: 504c737a73a332004577a94b0d37864e39336f9bb1b1daa4696794efe837a8e5
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/libw/libwebp/libwebp6_0.6.1-2+deb10u3_amd64.deb
+    digest: 7e3c5c355e02c97fa6e8b47b495cd2c38f93d8d9a1b8f6b3c5449e9302c9b302
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/t/tiff/libtiff5_4.1.0+git191117-2~deb10u9_amd64.deb
+    digest: 469a880dde9281620508d32e472a8aad582794a8c1ac092a370abb8804219f46
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libw/libwmf/libwmf0.2-7_0.2.8.4-14_amd64.deb
+    digest: 74ba09802dfdad2245d6f784976a7754391f4513ba375696c2056bab96a16e46
+
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+
+  cd /project/linglong/sources/photoflare.git
+  git apply ../../../0001-install.patch
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install

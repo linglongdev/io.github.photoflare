@@ -1,0 +1,40 @@
+From d8d1ed2ec07576089f35b1b80ced0bfe4bcec3d8 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Thu, 19 Sep 2024 10:32:44 +0800
+Subject: [PATCH] install
+
+---
+ Photoflare.pro | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/Photoflare.pro b/Photoflare.pro
+index 1f2e326..043b8bd 100644
+--- a/Photoflare.pro
++++ b/Photoflare.pro
+@@ -18,7 +18,7 @@ INCLUDEPATH += ./src/widgets \
+                ./src/progress \
+                ./src/managers
+                ./src/workers
+-
++INCLUDEPATH += $$PREFIX/include/GraphicsMagick
+ # Project settings for Windows. Adjust the paths as needed on your system.
+ win32 {
+     INCLUDEPATH +=  $$PWD/external/GraphicsMagick-1.3.28/Magick++/lib
+@@ -230,13 +230,7 @@ for(tsfile, TRANSLATIONS) {
+ 
+ # installs
+ unix:!macx {
+-    isEmpty(PREFIX) {
+-      packaging {
+-        PREFIX = /usr
+-      } else {
+-        PREFIX = /usr/local
+-      }
+-    }
++
+     DEFINES += APP_PREFIX=\\\"$$PREFIX\\\"
+ 
+     target.path = $${PREFIX}/bin/
+-- 
+2.43.4
+
